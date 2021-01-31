@@ -1,3 +1,3 @@
 # Algorithm
-solve algorithm problem
+solve algorithm problem \n
 Basic 1-100
