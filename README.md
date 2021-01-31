@@ -1,3 +1,18 @@
 # Algorithm
-solve algorithm problem \n
-Basic 1-100
+## solve algorithm problem 
+**output
+**input/output/operator
+**if~else
+**recursive
+**simple loop
+**nested loop
+**1-dimensional array
+**string
+**2-dimensional array
+**data sorting
+**function
+**structure practice
+**recursive function
+**search based design
+**realationship based design
+**등등
