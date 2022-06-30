@@ -1,2 +1,2 @@
 # BAEKJOON
-solve BAEKJOON algorithm problem
+solve algorithm problem
