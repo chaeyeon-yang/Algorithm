@@ -9,6 +9,7 @@ for _ in range(int(input())):
         s.pop()
       else:
         isVPS=False
+        break
 
   if s:
     isVPS=False
