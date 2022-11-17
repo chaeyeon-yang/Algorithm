@@ -13,5 +13,4 @@ for _ in range(int(input())):
 
   if s:
     isVPS=False
-  if isVPS: print("YES") 
-  else: print("NO")
+  print("YES" if isVPS else "NO")
