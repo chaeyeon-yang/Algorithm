@@ -5,7 +5,7 @@ input = sys.stdin.readline
 # 노드의 개수 N
 N = int(input())
 # 그래프 초기화
-graph = [[]*(N+1) for _ in range(N+1)]
+graph = [[] for _ in range(N+1)]
 # 방문처리 초기화
 visited = [0]*(N+1)
 
