@@ -2,15 +2,14 @@ import sys
 input = sys.stdin.readline
 
 N = int(input())
-arr = [1,1,0,1,1]
+game = ['SK','CY','SK','SK']
 
-for i in range(5, N+1):
-  if arr[i-1] + arr[i-3] + arr[i-4] == 3:
-    arr.append(0)
-  else:
-    arr.append(1)
+if N > 4:
+  for i in range(4, N):
+    if game[i-1] =='CY' or game[i-3] == 'CY' or game[i-4] == 'CY':
+      game.append('SK')
+    else:
+      game.append('CY')
 
-if arr[N] == 1:
-  print("SK")
-else: 
-  print("CY")
+
+print(game[N-1])
