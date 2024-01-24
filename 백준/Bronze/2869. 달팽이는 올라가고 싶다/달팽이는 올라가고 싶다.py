@@ -1,5 +1,6 @@
 import sys
-import math
-a,b,v=map(int, sys.stdin.readline().split())
-day=(v-b)/(a-b)
-print(math.ceil(day))
+input = sys.stdin.readline
+
+A, B, V = map(int, input().split())
+k = (V-B)/(A-B)
+print(int(k) if k == int(k) else int(k)+1)
