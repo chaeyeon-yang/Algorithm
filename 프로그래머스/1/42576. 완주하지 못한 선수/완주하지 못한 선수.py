@@ -1,0 +1,13 @@
+def solution(participant, completion):
+    answer = ''
+    
+    participant.sort()
+    completion.sort()
+    
+    res = []
+    
+    for i in range(len(completion)):
+        if (participant[i]!=completion[i]):
+            return participant[i]
+            
+    return participant[-1]
