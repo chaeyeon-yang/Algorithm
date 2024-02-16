@@ -1,16 +1,15 @@
 import sys
 input = sys.stdin.readline
 
-N = int(input())
-A = list(map(int, input().split()))
-B = list(map(int, input().split()))
+n = int(input())
+a = list(map(int, input().split()))
+b = list(map(int, input().split()))
+res = 0
+a.sort()
 
-A.sort()
-total = 0
-for i in range(N):
-    x = A[i]
-    y = B.pop(B.index(max(B)))
+for i in a:
+  tmp = i*max(b)
+  res += tmp
+  b.remove(max(b))
 
-    total += x*y
-
-print(total)
+print(res)
