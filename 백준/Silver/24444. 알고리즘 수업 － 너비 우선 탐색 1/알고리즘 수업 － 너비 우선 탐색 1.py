@@ -1,39 +1,33 @@
+import sys
 from collections import deque
+input = sys.stdin.readline
 
-# 정점의 수 N, 간선의 수 M, 시작 정점 R
-N, M, R = map(int, input().split())
+#인접리스트
+n, m, r = map(int, input().split())
+graph = [[] for _ in range(n+1)]
+visited = [0]*(n+1)
+cnt = 1
 
-# 그래프 초기화
-graph =[[]*(N+1) for _ in range(N+1)]
-# 방문체크
-visited = [0]*(N+1)
-
-# q 선언
-q = deque([R])
-# 방문순서 저장
-cnt=1
-# 시작 정점 방문처리
-visited[R] = cnt
-
-# 그래프 연결
-for i in range(M):
+for _ in range(m):
   a, b = map(int, input().split())
   graph[a].append(b)
   graph[b].append(a)
 
-for i in range(1, N+1) :
-  graph[i].sort()
 
-def bfs():
+def bfs(start):
   global cnt
+  q = deque([start])
+  visited[start] = 1
   while q:
     now = q.popleft()
-    for nxt in graph[now]:
-      if not visited[nxt]:
-        cnt+=1
-        visited[nxt] = cnt
-        q.append(nxt)
+    graph[now].sort()
+    for i in graph[now]:
+      if visited[i] == 0:
+        cnt += 1
+        visited[i] = cnt
+        q.append(i)
 
-bfs()
-for i in range(1, N+1):
-  print(visited[i])
+bfs(r)
+
+for i in visited[1:]:
+  print(i)
