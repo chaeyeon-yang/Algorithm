@@ -1,22 +1,23 @@
 #include<bits/stdc++.h>
 using namespace std;
-int n, cnt[26];
-string s, ret;
+
+int n, arr[26];
+string s, res;
+
 int main()
 {
   cin >> n;
   for (int i = 0; i < n; i++)
   {
     cin >> s;
-    cnt[s[0] - 'a']++;
+    arr[s[0] - 'a']++;
   }
-  for (int i = 0; i < 26; i++) {
-    if (cnt[i] >= 5)
-      ret += (i + 'a');
+  for (int i = 0; i < 26; i++)
+  {
+    if(arr[i] >= 5) {
+      res += i+'a';
+    }
   }
-  if (ret.size())
-    cout << ret << "\n";
-  else
-    cout << "PREDAJA" << "\n";
-  return 0;
+  if (res.size()) cout << res << "\n";
+  else cout << "PREDAJA\n";
 }
