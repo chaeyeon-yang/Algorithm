@@ -1,31 +1,29 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-// 배열 또는 맵 만들기
 int n, m;
 string s;
-map<string, int> mp;
-map<int, string> mp2;
-string a[100004];
+
+map<string, int> mps;
+string mpi[100002];
 int main() {
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
-  cout.tie(NULL);
   cin >> n >> m;
-  for (int i = 0; i < n; i++)
-  {
+  
+  for (int i = 0; i < n; i++) {
     cin >> s;
-    mp[s] = i + 1;
-    mp2[i + 1] = s;
-    a[i + 1] = s;
+    mpi[i+1] = s;
+    mps[s] = i + 1;
   }
-  for (int i = 0; i < m; i++)
+
+  for (int j = 0; j < m; j++)
   {
     cin >> s;
-    if(atoi(s.c_str()) == 0) {
-      cout << mp[s] << "\n";
-    } else {
-      cout << a[atoi(s.c_str())] << "\n";
+    if (atoi(s.c_str()) == 0) {
+      cout << mps[s] << "\n";
     }
+    else cout << mpi[atoi(s.c_str())] << "\n";
   }
+  return 0;
 }
