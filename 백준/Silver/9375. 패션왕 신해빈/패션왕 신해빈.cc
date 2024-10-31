@@ -1,25 +1,25 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-int t, n, res;
+int t, n;
+string a,b;
+
 int main()
 {
   cin >> t;
   for (int i = 0; i < t; i++) {
     cin >> n;
     map<string, int> mp;
-    res = 1;
-    for (int j = 0; j < n; j++)
+    int res = 1;
+    for (int i = 0; i < n; i++) {
+      cin >> a >> b;
+      mp[b]++;
+    }
+    for (auto ke : mp)
     {
-      string c, ctype;
-      cin >> c >> ctype;
-      mp[ctype]++;
+      res *= (ke.second + 1);
     }
-    
-    for (auto i : mp)
-    {
-      res *= i.second+1;
-    }
-    cout << (res - 1) << "\n";
-    }
+    cout << res - 1 << "\n";
+  }
+  return 0;
 }
