@@ -21,9 +21,9 @@ int main() {
   cin >> m >> n >> k;
   for (int i = 0; i < k; i++) {
     cin >> a >> b >> c >> d;
-    for (int t = a; t < c; t++) {
-      for (int r = b; r < d; r++) {
-        adj[r][t] = 1;
+    for (int t = b; t < d; t++) {
+      for (int r = a; r < c; r++) {
+        adj[t][r] = 1;
       }
     }
   }
