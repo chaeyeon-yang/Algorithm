@@ -1,27 +1,30 @@
 #include<bits/stdc++.h>
 using namespace std;
-int n;
+int t;
 string s;
-int main()
-{
-  cin >> n;
-  for (int i = 0; i < n; i++) {
+int main() {
+  ios_base::sync_with_stdio(false);
+  cin.tie(NULL);
+  cin >> t;
+  for (int j = 0; j < t; j++) {
     cin >> s;
-    stack<char> st;
-    for (char a :s) {
-      if (a == '(') st.push(a);
-      if (a == ')') {
-        if (st.size())
-          st.pop();
-        else
-        {
-          st.push(a);
+    vector<char> v;
+    for (char i : s) {
+      if (i == '(') {
+        v.push_back(i);
+      }
+      else if (i==')') {
+        if (v.size()) {
+          v.pop_back();
+        } else {
+          v.push_back(i);
           break;
         }
       }
     }
-    if (st.size() == 0) cout << "YES\n";
-    else
+    if (v.size()!=0)
       cout << "NO\n";
+    else cout << "YES\n";
   }
+  return 0;
 }
