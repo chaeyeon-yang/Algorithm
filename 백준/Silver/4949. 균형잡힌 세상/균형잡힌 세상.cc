@@ -1,49 +1,38 @@
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
 using namespace std;
-
 string s;
 int main() {
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
-
-  while (true) {
+  while(true) {
     getline(cin, s);
-    if (s == ".")
+    if (s==".")
       break;
-
-    stack<char> s1;
-    bool isValid = true; 
-
-    for (char c : s) {
-      if (c == '(' || c == '[') {
-        s1.push(c);
-      } else if (c == ')') {
-        if (!s1.empty() && s1.top() == '(') {
-          s1.pop();
-        } else {
-          isValid = false;
+    stack<char> st;
+    for (char i : s) {
+      if (i=='[' || i=='(')
+        st.push(i);
+      if (i==')') {
+        if (st.empty() || st.top() != '(') {
+          st.push(i);
           break;
         }
-      } else if (c == ']') {
-        if (!s1.empty() && s1.top() == '[') {
-          s1.pop();
-        } else {
-          isValid = false;
+        if (st.top() == '(')
+          st.pop();
+      }
+      if (i==']') {
+        if (st.empty() || st.top() != '[') {
+          st.push(i);
           break;
         }
+        if (st.top() == '[')
+          st.pop();
       }
     }
-
-    if (!s1.empty()) {
-      isValid = false;
-    }
-
-    if (isValid) {
-      cout << "yes" << "\n";
-    } else {
-      cout << "no" << "\n";
-    }
+    if (st.empty())
+      cout << "yes\n";
+    else
+      cout << "no\n";
   }
-
   return 0;
 }
