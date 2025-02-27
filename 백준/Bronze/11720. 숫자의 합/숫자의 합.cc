@@ -1,19 +1,15 @@
 #include <bits/stdc++.h>
 using namespace std;
 int n, s;
-int main()
-{
-  ios_base::sync_with_stdio(false);
-  cin.tie(NULL);
-  
-  cin >> n;
-  string num;
-  cin >> num;
+int main() {
+    scanf("%d", &n);
 
-  for (char c : num) {
-    s += c - '0';
-  }
+    for (int i = 0; i < n; i++) {
+        int a;
+        scanf("%1d", &a);
+        s += a;
+    }
 
-  cout << s << "\n";
-  return 0;
+    printf("%d\n", s);
+    return 0;
 }
