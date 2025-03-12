@@ -1,45 +1,35 @@
-#include<deque>
 #include<iostream>
+#include<queue>
 using namespace std;
 int t, n, m, prio;
-int main()
-{
+int main() {
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
   cin >> t;
   for (int i = 0; i < t; i++) {
+    queue<pair<int, int>> q;
+    priority_queue<int> pq;
+    int cnt = 0;
     cin >> n >> m;
-    deque<pair<int, int>> dq;
     for (int j = 0; j < n; j++) {
       cin >> prio;
-      dq.push_back({j, prio});
+      q.push({j, prio});
+      pq.push(prio);
     }
-    pair<int, int> fi = make_pair(m, dq[m].second);
-    int cnt = 0;
-    while (true)
+    while (!q.empty())
     {
-      if (dq.empty()) {
-        break;
-      }
-      pair<int, int> tmp = dq.front();
-      int flag = 0;
-      for (int k = 1; k < dq.size(); k++) {
-        if (tmp.second < dq[k].second) {
-          flag = 1;
-          break;
-        }
-      }
-      if (flag) {
-        dq.push_back(tmp);
-        dq.pop_front();
-      } else {
-        cnt++;
-        if (tmp == fi) {
+      int index = q.front().first;
+      int value = q.front().second;
+      q.pop();
+      if (pq.top() == value) {
+        pq.pop();
+        ++cnt;
+        if (index == m) {
           cout << cnt << "\n";
           break;
         }
-        dq.pop_front();
-      }
+      } else
+        q.push({index, value});
     }
   }
 
