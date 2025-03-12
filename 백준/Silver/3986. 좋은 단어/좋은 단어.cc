@@ -1,23 +1,34 @@
-#include<bits/stdc++.h>
+#include<iostream>
+#include<stack>
 using namespace std;
-int n, res;
+
+int n, cnt;
 string s;
-int main() {
+int main()
+{
   ios_base::sync_with_stdio(false);
-  cin.tie(NULL);
+  cin.tie(0);
   cin >> n;
-  for (int i = 0; i < n; i++)
-  {
+  for (int i = 0; i < n; i++) {
+    stack<char> st;
     cin >> s;
-    stack<char> stk;
-    for(char a : s) {
-      if (stk.size() && stk.top() == a)
-        stk.pop();
-      else
-        stk.push(a);
+    for (char c: s) {
+      if (c == 'A') {
+        if (!st.empty() && st.top() == 'A') {
+          st.pop();
+        } else
+        st.push(c);
+      }
+      if (c == 'B') {
+        if (!st.empty() && st.top() == 'B') {
+          st.pop();
+        } else
+        st.push(c);
+      }
     }
-    if (stk.size() == 0)
-      res++;
+    if (st.empty())
+      cnt++;
   }
-  cout << res << "\n";
+  cout << cnt << endl;
+  return 0;
 }
