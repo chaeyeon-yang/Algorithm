@@ -1,6 +1,4 @@
-#include<algorithm>
 #include<stack>
-#include<cstring> 
 #include<iostream>
 #include<cmath>
 #include<iomanip> 
