@@ -1,27 +1,29 @@
-#include<string>
+#include <string>
 #include <iostream>
-#include <vector>
-
+#include <stack>
 
 using namespace std;
 
-bool solution(string s)
-{
+bool solution(string s) {
+    stack<char> st;
+    
     bool answer = true;
-    vector<char> st;
-    for (char c: s) {
+    for(char c: s) {
         if (c=='(') {
-            st.push_back(c);
-        }
-        if (c==')') {
-            if (st.size()>0) st.pop_back();
-            else {
-                st.push_back(c);
+            if (!st.empty() && st.top()==')') st.pop();
+            else st.push(c);
+        } else {
+            if (st.empty()) {
+                st.push(c);
                 break;
+            }
+            else {
+                if (!st.empty() && st.top()=='(') st.pop();
+                else st.push(c);
             }
         }
     }
-    if (st.size()) answer=false;
+    if(!st.empty()) answer = false;
 
     return answer;
 }
