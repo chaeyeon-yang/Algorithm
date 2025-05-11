@@ -1,35 +1,23 @@
 #include <string>
 #include <vector>
 #include <queue>
+#include <iostream>
 
 using namespace std;
 
+struct cmp {
+    bool operator()(pair<int, int> &a, pair<int, int> &b) {
+        if (a.first == b.first) 
+            return a.second > b.second;
+        return a.first > b.first;
+    }
+};
+
 int solution(vector<int> priorities, int location) {
-    queue<pair<int, int>> q;
-    priority_queue<int> pq;
-
-    for (int i = 0; i < priorities.size(); i++) {
-        q.push({priorities[i], i});
-        pq.push(priorities[i]);
-    }
-
     int answer = 0;
-
-    while (!q.empty()) {
-        int cur_priority = q.front().first;
-        int cur_index = q.front().second;
-        q.pop();
-
-        if (cur_priority == pq.top()) {
-            answer++;
-            pq.pop();
-            if (cur_index == location) {
-                return answer;
-            }
-        } else {
-            q.push({cur_priority, cur_index});
-        }
+    priority_queue<pair<int, int>, vector<pair<int, int>>, cmp> pq;
+    for(int i=0; i<priorities.size(); i++) {
+        pq.push({priorities[i], i});
     }
-
     return answer;
 }
