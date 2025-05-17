@@ -1,6 +1,5 @@
 #include <string>
 #include <vector>
-#include <deque>
 #include <algorithm>
 
 using namespace std;
@@ -8,9 +7,9 @@ using namespace std;
 vector<int> solution(vector<int> answers) {
     vector<int> answer;
     int num1 = 0, num2 = 0, num3 = 0;
-    deque<int> met1 = {1, 2, 3, 4, 5};
-    deque<int> met2 = {2, 1, 2, 3, 2, 4, 2, 5};
-    deque<int> met3 = {3, 3, 1, 1, 2, 2, 4, 4, 5, 5};
+    vector<int> met1 = {1, 2, 3, 4, 5};
+    vector<int> met2 = {2, 1, 2, 3, 2, 4, 2, 5};
+    vector<int> met3 = {3, 3, 1, 1, 2, 2, 4, 4, 5, 5};
     
     for(int i = 0; i < answers.size(); i++) {
         if (answers[i] == met1[i % met1.size()]) num1++;
