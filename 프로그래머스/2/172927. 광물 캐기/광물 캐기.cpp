@@ -1,52 +1,44 @@
 #include <string>
 #include <vector>
-#include <map>
 #include <algorithm>
+#include <map>
 
 using namespace std;
-map<string, int> m; // "diamind" = 0, "iron" = 1, "stone" = 2
-int fatigue[3][3] = {{1,1,1}, {5,1,1}, {25,5,1}}; // [곡괭이로][해당광물캘때] = 드는 피로도
 
+map<string, int> m;
+int fatigue[3][3] = {{1,1,1}, {5,1,1}, {25,5,1}};
 
-void DFS(vector<int> &picks, vector<string> &minerals, int &answer, int sum, int location) {
+void dfs(vector<int> &picks, vector<string> &minerals, int psum, int loc, int &answer) {
     
-    // 광물을 다 캤거나 곡괭이들을 다 썼을때 피로도를 갱신해주자.
-    if(location==minerals.size() || (picks[0]==0 && picks[1]==0 && picks[2]==0)) {
-        answer=min(answer,sum);
+    
+    
+    if (loc == minerals.size() || picks[0]==0 && picks[1]==0 && picks[2]==0) {
+        answer = min(answer, psum);
         return;
     }
-    
-    
-    // 0~2 곡괭이 방문
+
+    // 모든 곡괭이를 사용하는 경우의 수 
     for(int i=0; i<3; i++) {
-        
-        // i곡괭이가 있다면
-        if(picks[i]!=0) {
-            picks[i]--;    
-            
-            int tmpIdx=location; // 곡괭이를 들면 5개를 연속으로 캐야함. 캐야할 광물의 임시 인덱스.
-            int tmpSum=sum; // 광물을 캐며 누적된 임시 피로도
-            for(;tmpIdx<location+5 && tmpIdx<minerals.size();tmpIdx++) { // 5개를 캐거나 끝까지 캘때까지 
-                tmpSum+=fatigue[i][m[minerals[tmpIdx]]]; // m[minerals[tmpIdx]] : tmpIdx 광물의 번호
+        if (picks[i]!=0) {
+            picks[i]--;
+            int tmpidx = loc;
+            int tmpsum=psum;
+            for(; tmpidx<loc+5 && tmpidx<minerals.size(); tmpidx++) {
+              tmpsum += fatigue[i][m[minerals[tmpidx]]];
             }
-            
-            DFS(picks, minerals, answer, tmpSum, tmpIdx);
-            
+            dfs(picks, minerals, tmpsum, tmpidx, answer);
             picks[i]++;
         }
     }
-    
 }
 
 int solution(vector<int> picks, vector<string> minerals) {
-    int answer = (25*50)+1; // 최고 피로도*최대광물개수
-    
-    // "diamind" = 0, "iron" = 1, "stone" = 2
+    int answer = 50*25;
     m.insert({"diamond", 0});
     m.insert({"iron", 1});
     m.insert({"stone", 2});
-    
-    DFS(picks, minerals, answer, 0, 0);
+
+    dfs(picks, minerals, 0, 0, answer);
     
     return answer;
 }
