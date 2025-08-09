@@ -1,42 +1,52 @@
 #include<bits/stdc++.h>
+
 using namespace std;
-int n, adj[104][104], visited[104][104];
-int res = 1;
+
+int n, ret;
+
+const int MAX = 100;
 const int dy[4] = {-1, 0, 1, 0};
 const int dx[4] = {0, 1, 0, -1};
 
-// dfs
+// 아무지역도 물에 잠기지 않을 수도 있다.
+
+int adj[MAX][MAX], visited[MAX][MAX];
+
 void dfs(int y, int x, int h) {
-  visited[y][x] = 1;
-  for (int i = 0; i < 4; i++) {
+  for (int i = 0; i < 4; i++)
+  {
     int ny = y + dy[i];
     int nx = x + dx[i];
-    if (ny<0 || ny>=n || nx<0 || nx>=n || visited[ny][nx]) continue;
+    if (ny<0|| ny>=n || nx<0 ||nx>=n||visited[ny][nx]) continue;
     if (adj[ny][nx] <= h) continue;
+    visited[ny][nx] = 1;
     dfs(ny, nx, h);
   }
   return;
 }
 
 int main() {
+  ios_base::sync_with_stdio(false);
+  cin.tie(0);
   cin >> n;
   for (int i = 0; i < n; i++) {
     for (int j = 0; j < n; j++) {
       cin >> adj[i][j];
     }
   }
-  for (int i = 1; i < 101; i++)  {
-    int cnt = 0;
+  for (int h = 1; h <= 100; h++) {
+    int count_area = 0;
     memset(visited, 0, sizeof(visited));
-    for (int a = 0; a < n; a++) {
-      for (int b = 0; b < n; b++) {
-        if(adj[a][b] > i && !visited[a][b]) {
-          dfs(a, b, i);
-          cnt++;
+    for (int i = 0; i < n; i++) {
+      for (int j = 0; j < n; j++) {
+        if (!visited[i][j] && adj[i][j] > h) {
+          dfs(i, j, h);
+          count_area++;
         }
       }
     }
-    res = max(res, cnt);
+    ret = max(ret, count_area);
   }
-  cout << res << "\n";
+  ret == 0 ? cout << 1 << endl : cout << ret << endl;
+  return 0;
 }
