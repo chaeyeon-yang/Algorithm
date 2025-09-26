@@ -3,32 +3,26 @@
 
 using namespace std;
 
-int student[31];
-
 int solution(int n, vector<int> lost, vector<int> reserve) {
-    int answer = 0;
+    int answer = -1;
+    vector<int> cloth(n+1, 1);
+    for(int i: lost) cloth[i]--;
+    for(int i: reserve) cloth[i]++;
     
-    // -1 0 1
-    
-    for(int i = 0; i < lost.size(); i++){
-        student[lost[i]]--;
-    }
-    
-    for(int i = 0; i < reserve.size(); i++){
-        student[reserve[i]]++;
-    }
-    
-    for(int i = 1; i <= n; i++){
-        if(student[i] == -1){
-            if(student[i-1] == 1){
-                student[i-1] = 0;
-                student[i] = 0;
-            } else if (student[i+1] == 1) {
-                student[i+1] = 0;
-                student[i] = 0;
+    for(int i=1; i<=n; i++) {
+        if (cloth[i] == 0) {
+            if (i>1 && cloth[i-1] == 2) {
+                cloth[i-1]--;
+                cloth[i]++;
+            } else if (i < n && cloth[i+1] == 2) {
+                cloth[i+1]--;
+                cloth[i]++;
             }
-        } 
-        if (student[i] >= 0) answer++;
+        }
     }
+    for(int i=0; i<=n; i++) {
+        if (cloth[i]>0) answer++;
+    }
+    
     return answer;
 }
