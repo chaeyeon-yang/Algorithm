@@ -2,45 +2,31 @@
 #include <vector>
 #include <map>
 #include <algorithm>
-#include <iostream>
 
 using namespace std;
 
 vector<int> solution(vector<string> genres, vector<int> plays) {
     vector<int> answer;
     map<string, int> mp;
+    vector<tuple<string, int, int>> v;
     for(int i=0; i<genres.size(); i++) {
         mp[genres[i]] += plays[i];
+        v.push_back({genres[i], plays[i], i});
     }
-    
-    vector<pair<string, int>> vec(mp.begin(), mp.end());
-
-    sort(vec.begin(), vec.end(), [](pair<string, int>& a, pair<string, int>& b) {
-        return a.second > b.second;
+    sort(v.begin(), v.end(), [&](auto& a, auto& b) {
+        string genreA = get<0>(a), genreB = get<0>(b);
+        int playA = get<1>(a), playB = get<1>(b);
+        int indexA = get<2>(a), indexB = get<2>(b);
+        if (mp[genreA] != mp[genreB]) return mp[genreA] > mp[genreB];
+        if (playA != playB) return playA > playB;
+        return indexA < indexB;
     });
-    
-    for(pair<string, int> p: vec) {
-        string now = p.first;
-        vector<pair<int, int>> tmp;
-        for(int i=0; i<genres.size(); i++) {
-            if (genres[i] == now) {
-                tmp.push_back({plays[i], i});
-            }
-        }
-        sort(tmp.begin(), tmp.end(), [](pair<int, int> a, pair<int, int> b) {
-            if (a.first == b.first) {
-                return a.second < b.second;
-            }
-            return a.first > b.first;
-        });
-        int cnt = 0;
-        for(pair<int, int> n: tmp) {
-            if (cnt == 2) break;
-            answer.push_back(n.second);
-            cnt++;
-        }
+    map<string, int> cnt;
+    for(auto& a: v) {
+        cnt[get<0>(a)]++;
+        if (cnt[get<0>(a)] > 2) continue;
+        answer.push_back(get<2>(a));
     }
     
-
     return answer;
 }
