@@ -1,35 +1,32 @@
 #include <string>
 #include <vector>
 #include <deque>
-#include <iostream>
 #include <cmath>
+#include <iostream>
 
 using namespace std;
 
 vector<int> solution(vector<int> progresses, vector<int> speeds) {
     vector<int> answer;
-    deque<double> dq;
+    deque<int> dq;
     for(int i=0; i<progresses.size(); i++) {
-        double now = progresses[i];
-        dq.push_back(ceil((100-now)/speeds[i]));
+        // cout << ceil((100.0 - progresses[i]) / speeds[i]) << " ";
+        dq.push_back(ceil((100.0-progresses[i])/speeds[i]));
     }
-    
-    int now = dq.front();
+    int cur = dq.front();
     dq.pop_front();
     int cnt = 1;
     while(!dq.empty()) {
-        // cout << now << " 은 지금 값이고 " << dq.front() << " 은 맨 앞값\n";
-        if (dq.front() <= now) {
+        if (dq.front() <= cur) {
             cnt++;
             dq.pop_front();
         } else {
             answer.push_back(cnt);
-            now = dq.front();
+            cur = dq.front();
             dq.pop_front();
             cnt = 1;
         }
     }
-    answer.push_back(cnt);
-
+    if (cnt) answer.push_back(cnt);
     return answer;
 }
