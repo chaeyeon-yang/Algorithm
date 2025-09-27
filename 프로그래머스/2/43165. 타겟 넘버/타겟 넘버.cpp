@@ -1,23 +1,27 @@
+#include <string>
 #include <vector>
+
 using namespace std;
 
-int answer = 0;
+int total;
 
-void get_target_number(vector<int> numbers, int target, int sum, int index){
-    if (index == numbers.size()){
-        if (sum == target) {
-            answer++;
-        }
+void DFS(vector<int> &numbers, int &target,int sum,int n) {
+    if(n >= numbers.size()){
+        if(sum == target) total++;
         return;
     }
-    get_target_number(numbers, target, sum + numbers[index], index + 1);
-    get_target_number(numbers, target, sum - numbers[index], index + 1);
-    
-   
+
+    DFS(numbers, target, sum + numbers[n], n+1);
+    DFS(numbers, target, sum - numbers[n], n+1);
 }
 
 int solution(vector<int> numbers, int target) {
-    get_target_number(numbers, target, 0, 0);
+    int answer = 0;
+
+    DFS(numbers, target, numbers[0] , 1);
+    DFS(numbers, target, -numbers[0], 1);
+
+    answer = total;
 
     return answer;
 }
