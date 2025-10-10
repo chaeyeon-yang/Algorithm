@@ -1,23 +1,35 @@
 #include <string>
 #include <vector>
+#include <iostream>
 #include <cmath>
+#include <algorithm>
 
 using namespace std;
 
 int solution(vector<vector<int>> sizes) {
-    int answer = 0;
-    int w = 0;
-    int h = 0;
+    int answer = 1;
+    vector<vector<int>> tmp;
     for(int i=0; i<sizes.size(); i++) {
-        if (sizes[i][0] > sizes[i][1]) {
-            w = max(w, sizes[i][0]);
-            h = max(h, sizes[i][1]);
+        vector<int> now = sizes[i];
+        if (now[0] < now[1]) {
+            tmp.push_back({now[1], now[0]});
         } else {
-            w = max(w, sizes[i][1]);
-            h = max(h, sizes[i][0]);
+            tmp.push_back({now[0], now[1]});
         }
     }
-    answer = w*h;
     
+    
+    sort(tmp.begin(), tmp.end(), [](const vector<int>& a, const vector<int>& b) {
+        if (a[0] == b[0]) return a[1] > b[1];
+        return a[0] > b[0];
+    });
+    
+    int sero = 0;
+    for(int i=0; i<tmp.size(); i++) {
+        sero = max(sero, tmp[i][1]);
+    }
+    
+    answer = sero*tmp[0][0];
+        
     return answer;
 }
