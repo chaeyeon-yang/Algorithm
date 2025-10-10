@@ -1,40 +1,49 @@
 #include <string>
 #include <vector>
+#include <iostream>
 #include <algorithm>
 
 using namespace std;
 
 vector<int> solution(vector<int> answers) {
     vector<int> answer;
-    int num1 = 0, num2 = 0, num3 = 0;
-    vector<int> met1 = {1, 2, 3, 4, 5};
-    vector<int> met2 = {2, 1, 2, 3, 2, 4, 2, 5};
-    vector<int> met3 = {3, 3, 1, 1, 2, 2, 4, 4, 5, 5};
+    vector<int> supo1 = {1,2,3,4,5};
+    vector<int> supo2 = {2,1,2,3,2,4,2,5};
+    vector<int> supo3 = {3,3,1,1,2,2,4,4,5,5};
+    vector<pair<int, int>> tmp;
     
-    for(int i = 0; i < answers.size(); i++) {
-        if (answers[i] == met1[i % met1.size()]) num1++;
-        if (answers[i] == met2[i % met2.size()]) num2++;
-        if (answers[i] == met3[i % met3.size()]) num3++;
-    }
-    
-    vector<pair<int, int>> scores = {
-        {num1, 1},
-        {num2, 2},
-        {num3, 3}
-    };
-    
-    // 점수 기준 내림차순 정렬
-    sort(scores.rbegin(), scores.rend());
-    
-    int max_score = scores[0].first;
-    
-    // 가장 높은 점수를 받은 사람 모두 answer에 추가
-    for (auto& p : scores) {
-        if (p.first == max_score) {
-            answer.push_back(p.second);
+    int supo1_n = 0, supo2_n = 0, supo3_n = 0;
+    for(int i=0; i<answers.size(); i+=5) {
+        vector<int> now(answers.begin() + i, answers.begin() + i + 5);
+        for(int j=0; j<supo1.size(); j++) {
+            if (now[j] == supo1[j]) supo1_n++;
         }
     }
+    for(int i=0; i<answers.size(); i+=8) {
+        vector<int> now(answers.begin() + i, answers.begin() + i + 8);
+        for(int j=0; j<supo2.size(); j++) {
+            if (now[j] == supo2[j]) supo2_n++;
+        }
+    }
+    for(int i=0; i<answers.size(); i+=10) {
+        vector<int> now(answers.begin() + i, answers.begin() + i + 10);
+        for(int j=0; j<supo3.size(); j++) {
+            if (now[j] == supo3[j]) supo3_n++;
+        }
+    }
+    tmp.push_back({supo1_n,1});
+    tmp.push_back({supo2_n,2});
+    tmp.push_back({supo3_n,3});
+    sort(tmp.rbegin(), tmp.rend());
     
-    sort(answer.begin(), answer.end()); 
+    for(int i=0; i<tmp.size(); i++) {
+        if (tmp[i].first > tmp[i+1].first) {
+            answer.push_back(tmp[i].second);
+            break;
+        } 
+        answer.push_back(tmp[i].second);
+    }
+    sort(answer.begin(), answer.end());
+    
     return answer;
 }
