@@ -1,51 +1,43 @@
 #include <string>
 #include <vector>
-#include <iostream>
 #include <algorithm>
 #include <set>
 #include <cmath>
 
 using namespace std;
 
-bool isPrime(int n) {
-    if (n <= 1) return false;
-    for (int i = 2; i <= sqrt(n); i++) {
-        if (n % i == 0) return false;
+set<int> s;
+
+bool isPrime(int x) {
+    if (x < 2) return false;
+    bool flag = true;
+    for(int i=2; i*i<=x; i++) {
+        if (x%i == 0)
+            flag = false;
     }
-    return true;
+    return flag;
+}
+
+void dfs(string numbers, string current, vector<bool>& visited) {
+    if (!current.empty()) {
+        s.insert(stoi(current));
+    }
+
+    for (int i = 0; i < numbers.size(); i++) {
+        if (!visited[i]) {
+            visited[i] = true;
+            dfs(numbers, current + numbers[i], visited);
+            visited[i] = false;
+        }
+    }
 }
 
 int solution(string numbers) {
-    set<int> candidate;  // 중복 제거용
-
-    sort(numbers.begin(), numbers.end());
-
-    // 길이 1부터 numbers.size()까지 모든 조합 생성
-    for (int i = 1; i <= numbers.size(); i++) {
-        vector<bool> select(numbers.size(), false);
-        fill(select.end() - i, select.end(), true);  // i개 선택
-
-        do {
-            string sub = "";
-            for (int j = 0; j < numbers.size(); j++) {
-                if (select[j]) sub += numbers[j];
-            }
-
-            // 해당 조합의 모든 순열을 생성
-            sort(sub.begin(), sub.end());
-            do {
-                candidate.insert(stoi(sub));
-            } while (next_permutation(sub.begin(), sub.end()));
-
-        } while (next_permutation(select.begin(), select.end()));
-    }
-
+    vector<bool> visited(numbers.size(), false);
+    dfs(numbers, "", visited);
     int answer = 0;
-    for (int num : candidate) {
-        if (isPrime(num)) {
-            answer++;
-        }
+    for (int num : s) {
+        if (isPrime(num)) answer++;
     }
-
     return answer;
 }
