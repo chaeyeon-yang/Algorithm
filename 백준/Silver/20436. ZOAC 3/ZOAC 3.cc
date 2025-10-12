@@ -1,93 +1,56 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 
 using namespace std;
 
-char a, b, eng, kor;
+char l, r;
 string s;
-int x, y, hand, tmp, answer;
-
-int main() {
+int answer;
+int main()
+{
   ios_base::sync_with_stdio(false);
   cin.tie(0);
-  // 모음: ㅏㅑㅓㅕ 자음: ㄱㄴㄷㄹ
-  vector<vector<pair<int, char>>> v;
-  v.push_back({
-        {0, 'q'}, {0, 'w'}, {0, 'e'}, {0, 'r'}, {0, 't'},
-        {1, 'y'}, {1, 'u'}, {1, 'i'}, {1, 'o'}, {1, 'p'}
-    });
+  char keyboard[3][10] = {
+      {'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'},
+      {'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'},
+      {'z', 'x', 'c', 'v', 'b', 'n', 'm'}};
 
-    v.push_back({
-        {0, 'a'}, {0, 's'}, {0, 'd'}, {0, 'f'}, {0, 'g'},
-        {1, 'h'}, {1, 'j'}, {1, 'k'}, {1, 'l'}
-    });
+  cin >> l >> r;
+  cin >> s;
+  pair<int, int> lhand;
+  pair<int, int> rhand;
 
-    v.push_back({
-        {0, 'z'}, {0, 'x'}, {0, 'c'}, {0, 'v'},
-        {1, 'b'}, {1, 'n'}, {1, 'm'}
-    });
+  for (int i = 0; i < 3; i++) {
+    for (int j = 0; j < 10; j++) {
+      if (keyboard[i][j] == l) {
+        lhand = {i, j};
+      }
+      if (keyboard[i][j] == r) {
+        rhand = {i, j};
+      }
+    }
+  }
 
-    cin >> a >> b;
-    cin >> s;
-
-    pair<int, int> p1;
-    pair<int, int> p2;
-    for (int i = 0; i < v.size(); i++) {
-      for (int j = 0; j < v[i].size(); j++) {
-        tie(hand, eng) = v[i][j];
-
-        if (eng == a) {
-          p1.first = i;
-          p1.second = j;
-        }
-        if (eng == b) {
-          p2.first = i;
-          p2.second = j;
+  for (char c : s) {
+    for (int i = 0; i < 3; i++) {
+      for (int j = 0; j < 10; j++) {
+        if (keyboard[i][j] == c) {
+          if (c == 'q' || c=='w'|| c=='e'|| c=='r'|| c=='t'
+          || c=='a'|| c=='s'|| c=='d'|| c=='f'|| c=='g'
+          || c=='z'|| c=='x'|| c=='c'|| c=='v') {
+            answer += abs(lhand.first - i);
+            answer += abs(lhand.second - j);
+            lhand = {i, j};
+            answer++;
+          } else {
+            answer += abs(rhand.first - i);
+            answer += abs(rhand.second - j);
+            rhand = {i, j};
+            answer++;
+          }
         }
       }
     }
-    // cout << "p1 : " << p1.first << ", " << p1.second << "\n";
-    // cout << "p2 : " << p2.first << ", " << p2.second << "\n";
-
-    for (char k : s) {
-      bool flag = false;
-      for (int i = 0; i < v.size(); i++)
-      {
-        tuple<int, int, int> fi;
-
-        for (int j = 0; j < v[i].size(); j++) {
-          tie(hand, eng) = v[i][j];
-          if (eng == k) {
-            // cout << "Eng : " << eng << " k: " << k << "\n";
-            fi = make_tuple(hand, i, j);
-            flag = true;
-            break;
-          }
-        }
-        if (flag) {
-          tmp = 0;
-          tie(hand, x, y) = fi;
-          if (hand == 0) {
-            // cout << "(x, y) = " << x << "," << y << "\n";
-            // cout << "왼손 : p1 = " << p1.first << "," << p1.second << "\n";
-            tmp = abs(x - p1.first) + abs(y - p1.second) + 1;
-            p1.first = x;
-            p1.second = y;
-          }
-          else {
-            // cout << "(x, y) = " << x << "," << y << "\n";
-            // cout << "오른손 : p2 = " << p2.first << "," << p2.second << "\n";
-            tmp = abs(x - p2.first) + abs(y - p2.second) + 1;
-            p2.first = x;
-            p2.second = y;
-          }
-          // cout << tmp << " 번 누르기 ~~\n";
-          answer += tmp;
-          break;
-        }
-      }
-    }
-
-    cout << answer;
-
-    return 0;
+  }
+  cout << answer << endl;
+  return 0;
 }
