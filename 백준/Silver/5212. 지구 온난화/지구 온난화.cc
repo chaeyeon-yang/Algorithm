@@ -2,71 +2,57 @@
 
 using namespace std;
 
-int r, c, min_yy, max_yy, min_xx, max_xx;
+int r, c, min_x = 20, max_x = -1, min_y=20, max_y = -1;
+const int dy[4] = {-1, 0, 1, 0};
+const int dx[4] = {0, 1, 0, -1};
+
 int main()
 {
   ios_base::sync_with_stdio(false);
   cin.tie(0);
-  // 상 하 좌 우 
+  vector<pair<int, int>> v;
   cin >> r >> c;
-  char m[10][10];
-  memset(m, '.', sizeof(m));
-
-  const int dy[4] = {-1, 0, 1, 0};
-  const int dx[4] = {0, 1, 0, -1};
-
-
+  char adj[r][c];
   for (int i = 0; i < r; i++) {
     for (int j = 0; j < c; j++) {
-      cin >> m[i][j];
+      cin >> adj[i][j];
     }
   }
 
   for (int i = 0; i < r; i++) {
     for (int j = 0; j < c; j++) {
-      if (m[i][j] == 'X') {
-        int tmp = 0;
+      if (adj[i][j] == 'X') {
+        int cnt = 0;
         for (int a = 0; a < 4; a++) {
           int ny = i + dy[a];
           int nx = j + dx[a];
-          if (ny < 0 || ny >= r || nx < 0 || nx >= c || m[ny][nx] == '.') {
-            tmp++;
-          }
+          if (ny<0 || nx<0 || ny>=r || nx>=c|| adj[ny][nx] == '.') cnt++;
         }
-        // cout << "(i, j) : " << i << " , " << j << " " <<  m[i][j] << " 주변은 " << tmp << "개 \n";
-        if (tmp >= 3)
-        {
-          m[i][j] = 'k';
+        if (cnt >= 3) {
+          v.push_back({i, j});
         }
       }
     }
   }
 
-  min_yy = min_xx = 100;
-  max_yy = max_xx = -100;
-  
-  for (int i = 0; i < r; i++)
-  {
-    vector<pair<int, int>> v;
-    for (int j = 0; j < c; j++) {
-      if (m[i][j] == 'k')
-        m[i][j] = '.';
-      if (m[i][j] == 'X')
-      {
-        v.push_back({i, j});
+  for (int i = 0; i < v.size(); i++) {
+    adj[v[i].first][v[i].second] = '.';
+  }
+
+  for (int i = 0; i < r; i++) {
+    for (int j = 0; j < c; j++){
+      if (adj[i][j] == 'X') {
+        min_x = min(min_x, j);
+        max_x = max(max_x, j);
+        min_y = min(min_y, i);
+        max_y = max(max_y, i);
       }
-    }
-    if (!v.empty()) {
-      min_xx = min(v[0].second, min_xx);
-      max_xx = max(v[v.size() - 1].second, max_xx);
-      min_yy = min(v[0].first, min_yy);
-      max_yy = max(v[0].first, max_yy);
     }
   }
 
-  for (int i = min_yy; i <= max_yy; i++) {
-    for (int j = min_xx; j <= max_xx; j++) {
-      cout << m[i][j];
+  for (int i = min_y; i <= max_y; i++) {
+    for (int j = min_x; j <= max_x; j++) {
+      cout << adj[i][j];
     }
     cout << "\n";
   }
