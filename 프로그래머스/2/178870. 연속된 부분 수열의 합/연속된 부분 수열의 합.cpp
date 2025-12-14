@@ -4,27 +4,23 @@
 using namespace std;
 
 vector<int> solution(vector<int> sequence, int k) {
-    int start = 0, end = 0;
+    int n = sequence.size();
     int sum = 0;
-    vector<int> answer = {0, (int)sequence.size()-1};
-    int minLength = sequence.size();
+    int left = 0;
+    vector<int> answer = {0, n-1};
 
-    while (end < sequence.size()) {
-        sum += sequence[end];
+    for (int right = 0; right < n; right++) {
+        sum += sequence[right];
 
-        while (sum > k && start <= end) {
-            sum -= sequence[start];
-            start++;
+        while (sum > k) {
+            sum -= sequence[left++];
         }
 
         if (sum == k) {
-            if (end - start < minLength) {
-                minLength = end - start;
-                answer = {start, end};
+            if (right - left < answer[1] - answer[0]) {
+                answer = {left, right};
             }
         }
-        end++;
     }
-
     return answer;
 }
