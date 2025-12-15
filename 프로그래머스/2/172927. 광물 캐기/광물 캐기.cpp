@@ -5,15 +5,13 @@
 
 using namespace std;
 
-map<string, int> m;
-int fatigue[3][3] = {{1,1,1}, {5,1,1}, {25,5,1}};
+map<string, int> gok;
+int pirodo[3][3] = {{1,1,1}, {5,1,1}, {25,5,1}};
 
-void dfs(vector<int> &picks, vector<string> &minerals, int psum, int loc, int &answer) {
-    
-    
+void dfs(vector<int> &picks, vector<string> &minerals, int sum, int loc, int &answer) {
     
     if (loc == minerals.size() || picks[0]==0 && picks[1]==0 && picks[2]==0) {
-        answer = min(answer, psum);
+        answer = min(answer, sum);
         return;
     }
 
@@ -22,9 +20,9 @@ void dfs(vector<int> &picks, vector<string> &minerals, int psum, int loc, int &a
         if (picks[i]!=0) {
             picks[i]--;
             int tmpidx = loc;
-            int tmpsum=psum;
+            int tmpsum = sum;
             for(; tmpidx<loc+5 && tmpidx<minerals.size(); tmpidx++) {
-              tmpsum += fatigue[i][m[minerals[tmpidx]]];
+              tmpsum += pirodo[i][gok[minerals[tmpidx]]];
             }
             dfs(picks, minerals, tmpsum, tmpidx, answer);
             picks[i]++;
@@ -34,9 +32,9 @@ void dfs(vector<int> &picks, vector<string> &minerals, int psum, int loc, int &a
 
 int solution(vector<int> picks, vector<string> minerals) {
     int answer = 50*25;
-    m.insert({"diamond", 0});
-    m.insert({"iron", 1});
-    m.insert({"stone", 2});
+    gok.insert({"diamond", 0});
+    gok.insert({"iron", 1});
+    gok.insert({"stone", 2});
 
     dfs(picks, minerals, 0, 0, answer);
     
