@@ -1,62 +1,54 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <iostream>
 
 using namespace std;
 
-const int dy[4] = {0,-1,0,1};
-const int dx[4] = {-1,0,1,0};
+const int dy[4] = {-1,0,1,0};
+const int dx[4] = {0,1,0,-1};
 
-int dfs(int y, int x, vector<vector<int>>& m, vector<vector<bool>>& visited) {
-    visited[y][x] = true;
-    int sum = m[y][x];
+int dfs(const vector<string>& maps, 
+        vector<vector<int>>& visited,
+       int y, int x, int& cnt) {
+    int n = maps.size();
+    int m = maps[0].size();
     
-    for(int a=0; a<4; a++) {
-        int ny = y + dy[a];
-        int nx = x + dx[a];
-
-        if (ny<0 || ny>=m.size() || nx<0 || nx>=m[0].size() || visited[ny][nx]) 
-            continue;
-        if (m[ny][nx] == 0) continue;
-        sum += dfs(ny, nx, m, visited);
+    cnt += maps[y][x]-'0';
+    visited[y][x] = 1;
+    // cout << maps[y][x] << " ";
+    
+    for(int i=0; i<4; i++) {
+        int ny = y + dy[i];
+        int nx = x + dx[i];
+        if (ny<0 || nx<0 || ny>=n || nx>=m) continue;
+        if (visited[ny][nx] != -1 || maps[ny][nx] == 'X') continue;
+        dfs(maps, visited, ny, nx, cnt);
     }
-    return sum;
+    return cnt;
 }
-
 
 vector<int> solution(vector<string> maps) {
     vector<int> answer;
-
-    int ysize = maps.size();
-    int xsize = maps[0].size();
-
-    vector<vector<int>> m(ysize, vector<int>(xsize));
-    vector<vector<bool>> visited(ysize, vector<bool>(xsize));
-            
-    for(int i=0; i<ysize; i++) {
-        for(int j=0; j<xsize; j++) {
-            if(maps[i][j]=='X') {
-                m[i][j] = 0;
-            } else {
-                m[i][j] = maps[i][j]-'0';
+    int n = maps.size();
+    int m = maps[0].size();
+    
+    vector<vector<int>> visited(n, vector<int>(m, -1));
+    
+    for(int i=0; i<n; i++) {
+        for(int j=0; j<m; j++) {
+            if (visited[i][j] == -1 && maps[i][j] !='X') {
+                int cnt = 0;
+                answer.push_back(dfs(maps, visited, i, j, cnt));
             }
         }
     }
-    
-    for(int i=0; i<ysize; i++) {
-        for(int j=0; j<xsize; j++) {
-            if (!visited[i][j] && m[i][j]!=0) {
-                int cnt = dfs(i, j, m, visited);
-                answer.push_back(cnt);
-            }
-        }
-    }
-    
-    if (answer.size()==0) {
-        answer.push_back(-1);
-    } else {
+    if (answer.size()) {
         sort(answer.begin(), answer.end());
+    } else {
+        answer.push_back(-1);
     }
+    
     
     return answer;
 }
