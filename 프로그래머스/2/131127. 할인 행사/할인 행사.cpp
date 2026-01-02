@@ -7,32 +7,30 @@ using namespace std;
 
 int solution(vector<string> want, vector<int> number, vector<string> discount) {
     int answer = 0;
-    int end = 0;
-    map<string, int> mp;
+    map<string, int> need;
     for(int i=0; i<want.size(); i++) {
-        mp.insert({want[i], number[i]});
+        need[want[i]] = number[i];
     }
     
-    while(end < discount.size()) {
-        map<string, int> tmp;
-        for(int i=end; i<end+10 && i<discount.size(); i++) {
-            // cout << end << " : " << end+10 << "--- \n";
-            for(auto& wa : mp) {
-                if (wa.first == discount[i]) {
-                    tmp[discount[i]]++;
-                }
-            }
+    
+    for(int i=0; i+10<=discount.size(); i++) {
+        map<string, int> mp = need;
+        int cnt = 0;
+        for(int j=i; j<i+10; j++) {
+            auto it = mp.find(discount[j]);
+            if (it != mp.end()) {
+                mp[discount[j]]--;
+            };
         }
         bool flag = true;
-        for(auto& wa : mp) {
-            if (wa.second != tmp[wa.first]) {
+        for(auto& s: mp) {
+            if (s.second != 0) {
                 flag = false;
                 break;
             }
         }
-        if (flag) 
-            answer++;
-        end ++;
+
+        if (flag) answer++;
     }
     return answer;
 }
