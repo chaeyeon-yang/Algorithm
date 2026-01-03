@@ -1,40 +1,32 @@
 #include <string>
 #include <vector>
-#include <iostream>
 #include <algorithm>
-#include <cmath>
 #include <map>
-#include <set>
+#include <iostream>
 
 using namespace std;
 
 int solution(int k, vector<int> tangerine) {
+
     int answer = 0;
     map<int, int> mp;
-    vector<pair<int, int>> v;
-    set<int> s;
-    
-    for(int i=0; i<tangerine.size(); i++) {
-        mp[tangerine[i]]++;
+    for(int i: tangerine) {
+        mp[i]++;
     }
+    vector<pair<int, int>> v(mp.begin(), mp.end());
+    sort(v.begin(), v.end(), [](pair<int, int> a, pair<int, int> b) {
+        return a.second > b.second;
+    });
     
-    for(auto a: mp) {
-        v.push_back({a.second, a.first});
-    }
-    
-    sort(v.rbegin(), v.rend());
-    
-    int b=0;
-    for(int i=0; i<k; i++) {
-        if (b==k) break;
-        for(int j=0; j<v[i].first; j++) {
-            if (b==k) break;
-            s.insert(v[i].second);
-            b++;
+    int want_k = k;
+    for(int i=0; i<v.size(); i++) {
+        if (want_k <= 0) {
+            break;
         }
+        want_k -= v[i].second;
+        answer++;
     }
-    
-    answer = s.size();
+
     
     return answer;
 }
