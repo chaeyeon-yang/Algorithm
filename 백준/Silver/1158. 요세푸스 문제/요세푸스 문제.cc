@@ -1,27 +1,41 @@
-#include<bits/stdc++.h>
+#include <iostream>
+#include <string>
+#include <queue>
+#include <vector>
+
 using namespace std;
+
+
+// 1 2 3 4 5 6 7
+// 3 6
 int n, k;
-int main() {
+vector<int> v;
+int main()
+{
   ios_base::sync_with_stdio(false);
-  cin.tie(NULL);
+  cin.tie(0);
   cin >> n >> k;
-  vector<int> li;
-  for (int i = 0; i < n; i++) {
-    li.push_back(i+1);
+  vector<int> tmp;
+  for (int i = 1; i < n + 1; i++) {
+    tmp.push_back(i);
   }
-  vector<int> res;
   int idx = 0;
-  while (!li.empty()) {
-    idx = (idx + k - 1) % li.size(); 
-    res.push_back(li[idx]);         
-    li.erase(li.begin() + idx);  
-  }
-  cout << "<";
-  for (int i = 0; i < n; i++) {
-    if (i==n-1)
-      cout << res[i] << ">";
-    else 
-      cout << res[i] << ", ";
-  }
-  return 0;
+
+    while (true)
+    {
+      idx = (idx + k - 1) % tmp.size();
+      v.push_back(tmp[idx]);
+      tmp.erase(tmp.begin() + idx);
+      if (v.size() == n)
+        break;
+    }
+    cout << "<";  
+    for (int i = 0; i < n; i++) {
+      if(i==n-1) {
+        cout << v[i];
+      } else
+      cout << v[i] << ", ";
+    }
+    cout << ">";
+      return 0;
 }
