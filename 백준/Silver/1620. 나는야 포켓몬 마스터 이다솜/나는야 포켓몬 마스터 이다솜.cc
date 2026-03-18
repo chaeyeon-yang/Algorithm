@@ -1,29 +1,42 @@
-#include<bits/stdc++.h>
+#include <iostream>
+#include <map>
+#include <string>
+#include <vector>
+#include <cctype>
+
 using namespace std;
 
 int n, m;
 string s;
+map<string, int> mp;
+vector<string> v;
 
-map<string, int> mps;
-string mpi[100002];
-int main() {
-  ios_base::sync_with_stdio(false);
+int main()
+{
+  ios::sync_with_stdio(false);
   cin.tie(NULL);
-  cin >> n >> m;
-  
-  for (int i = 0; i < n; i++) {
-    cin >> s;
-    mpi[i+1] = s;
-    mps[s] = i + 1;
-  }
 
-  for (int j = 0; j < m; j++)
+  cin >> n >> m;
+
+  v.resize(n + 1); 
+
+  for (int i = 1; i <= n; i++)
   {
     cin >> s;
-    if (atoi(s.c_str()) == 0) {
-      cout << mps[s] << "\n";
-    }
-    else cout << mpi[atoi(s.c_str())] << "\n";
+    mp[s] = i;
+    v[i] = s;
   }
+
+  for (int i = 0; i < m; i++) {
+    cin >> s;
+
+    if (isdigit(s[0])) {
+      int idx = stoi(s);
+      cout << v[idx] << "\n";
+    } else {
+      cout << mp[s] << "\n";
+    }
+  }
+
   return 0;
 }
