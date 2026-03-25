@@ -1,40 +1,41 @@
-#include<stack>
-#include<iostream>
-#include<cmath>
-#include<iomanip> 
+#include <vector>
+#include <iostream>
+#include <stack>
+#include <iomanip>
 
 using namespace std;
+
 int n, num;
 string s;
-stack<double> st;
-int arr[26];
+// A: 65, a: 97
 int main()
 {
   ios_base::sync_with_stdio(false);
-  cin.tie(NULL);
-  cin >> n >> s;
-  
+  cin.tie(0);
+  cin >> n;
+  stack<double> calc;
+  vector<int> v(n);
+
+  cin >> s;
   for (int i = 0; i < n; i++) {
-    cin >> num;
-    arr[i] = num;
-  }
-  for (char i:s) {
-    if ('A' <= i && i <= 'Z') {
-      st.push(arr[i-'A']);
-    } else {
-      if(!st.empty()) {
-        double tmp2 = st.top();
-        st.pop();
-        double tmp = st.top();
-        st.pop();
-        if (i == '+') st.push(tmp + tmp2);
-        else if (i == '-') st.push(tmp - tmp2);
-        else if (i == '*') st.push(tmp * tmp2);
-        else if (i == '/') st.push(tmp / tmp2);
-      }
-    }
+    cin >> v[i];
   }
 
-  cout << fixed << setprecision(2) << st.top() << "\n";
+  for(char c: s) {
+    double a, b = 0;
+    if (isalpha(c)) {
+      calc.push(v[c-'A']);
+    } else {
+      double a = calc.top(); calc.pop();
+      double b = calc.top(); calc.pop();
+
+      if (c == '*') calc.push(b * a);
+      else if (c == '/') calc.push(b / a);
+      else if (c == '+') calc.push(b + a);
+      else if (c == '-') calc.push(b - a);
+    }
+  }
+  
+  cout << fixed << setprecision(2) << calc.top() << endl;
   return 0;
 }
