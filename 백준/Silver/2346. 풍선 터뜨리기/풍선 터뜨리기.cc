@@ -1,43 +1,52 @@
+#include <string>
 #include <iostream>
+#include <vector>
 #include <deque>
 
 using namespace std;
 
+int n, a;
+
 int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(0);
+  ios_base::sync_with_stdio(false);
+  cin.tie(0);
+  cin >> n;
+  deque<pair<int, int>> dq(n);
+  vector<int> v;
+  for (int i = 0; i < n; i++)
+  {
+    cin >> a;
+    dq[i] = {a, i + 1};
+  }
 
-    int n;
-    cin >> n;
-
-    deque<pair<int,int>> dq;
-
-    for(int i = 1; i <= n; i++) {
-        int x;
-        cin >> x;
-        dq.push_back({i, x});
-    }
-
-    while(!dq.empty()) {
-        auto [idx, move] = dq.front();
+  while (!dq.empty())
+  {
+    auto [num, idx] = dq.front();
+    dq.pop_front();
+    v.push_back(idx);
+    if (num > 0)
+    {
+      for (int i = 0; i < num-1; i++) {
+        dq.push_back(dq.front());
         dq.pop_front();
-
-        cout << idx << " ";
-
-        if(dq.empty()) break;
-
-        if(move > 0) {
-            for(int i = 0; i < move - 1; i++) {
-                dq.push_back(dq.front());
-                dq.pop_front();
-            }
-        } else {
-            for(int i = 0; i < -move; i++) {
-                dq.push_front(dq.back());
-                dq.pop_back();
-            }
-        }
+      }
     }
+    else
+    {
+      for (int i = 0; i < -num; i++) {
+        dq.push_front(dq.back());
+        dq.pop_back();
+      }
+    }
+  }
+
+  for (int i = 0; i < n; i++)
+  {
+    if (i == n-1) {
+      cout << v[i] << endl;
+    } else
+    cout << v[i] << " ";
+  }
 
     return 0;
 }
