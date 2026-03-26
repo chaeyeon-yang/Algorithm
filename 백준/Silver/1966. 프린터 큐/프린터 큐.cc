@@ -1,37 +1,43 @@
-#include<iostream>
-#include<queue>
+#include <iostream>
+#include <queue>
 using namespace std;
-int t, n, m, prio;
-int main() {
-  ios_base::sync_with_stdio(false);
-  cin.tie(NULL);
-  cin >> t;
-  for (int i = 0; i < t; i++) {
-    queue<pair<int, int>> q;
-    priority_queue<int> pq;
-    int cnt = 0;
-    cin >> n >> m;
-    for (int j = 0; j < n; j++) {
-      cin >> prio;
-      q.push({j, prio});
-      pq.push(prio);
-    }
-    while (!q.empty())
-    {
-      int index = q.front().first;
-      int value = q.front().second;
-      q.pop();
-      if (pq.top() == value) {
-        pq.pop();
-        ++cnt;
-        if (index == m) {
-          cout << cnt << "\n";
-          break;
-        }
-      } else
-        q.push({index, value});
-    }
-  }
 
-  return 0;
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(0);
+
+    int t; cin >> t;
+
+    while (t--) {
+        int n, m; cin >> n >> m;
+
+        queue<pair<int,int>> q;
+        priority_queue<int> pq;
+
+        for (int i = 0; i < n; i++) {
+            int x; cin >> x;
+            q.push({x, i});
+            pq.push(x);
+        }
+
+        int cnt = 0;
+
+        while (!q.empty()) {
+            auto cur = q.front(); 
+            q.pop();
+
+            if (cur.first == pq.top()) {
+                pq.pop();
+                cnt++;
+
+                if (cur.second == m) {
+                    cout << cnt << "\n";
+                    break;
+                }
+            } 
+            else {
+                q.push(cur);
+            }
+        }
+    }
 }
