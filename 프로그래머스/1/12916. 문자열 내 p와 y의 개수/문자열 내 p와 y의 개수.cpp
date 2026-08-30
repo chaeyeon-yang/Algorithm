@@ -1,23 +1,21 @@
 #include <string>
 #include <iostream>
-#include <map>
+#include <cctype>
+#include <algorithm>
+
 using namespace std;
 
 bool solution(string s)
 {
     bool answer = true;
-    map<char, int> mp;
+    transform(s.begin(), s.end(), s.begin(), ::tolower);
+    int cnt_p = 0;
+    int cnt_y = 0;
     for(char c: s) {
-        int tmp = tolower(c);
-        if (tmp=='p')
-            mp[tmp]++;
-        if (tmp=='y') 
-            mp[tmp]++;
+        if (c == 'p') cnt_p++;
+        if (c == 'y') cnt_y++;
     }
-    
-    if (mp['p'] != mp['y']) answer = false;
-    if (mp['p'] == 0 && mp['y'] == 0) answer = true;
-
+    if(cnt_p != cnt_y) answer = false;
 
     return answer;
 }
