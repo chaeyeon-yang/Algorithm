@@ -5,11 +5,15 @@ using namespace std;
 
 string solution(string phone_number) {
     string answer = "";
-    int k = phone_number.size();
-    for(int i=0; i<k-4; i++) {
-        answer += "*";
+    int size = phone_number.size();
+    int j = size-4;
+    for(int i=0; i<size; i++) {
+        if (j == i) {
+            answer += phone_number[i];
+            j++;
+        } else {
+            answer += '*';
+        }
     }
-    string sub_s = phone_number.substr(k-4, 4);
-    answer += sub_s;
     return answer;
 }
