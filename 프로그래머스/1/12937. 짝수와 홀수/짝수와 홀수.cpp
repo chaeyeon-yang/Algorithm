@@ -4,8 +4,7 @@
 using namespace std;
 
 string solution(int num) {
-    string answer = "";
-    if(num%2!=0) answer = "Odd";
-    else answer = "Even";
+    string answer = "Odd";
+    if (num % 2 == 0) answer = "Even";
     return answer;
 }
