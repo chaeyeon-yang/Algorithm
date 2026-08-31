@@ -1,23 +1,19 @@
 #include <vector>
 #include <iostream>
-#include <deque>
 
 using namespace std;
 
-vector<int> solution(vector<int> arr) {
+vector<int> solution(vector<int> arr) 
+{
     vector<int> answer;
-    deque<int> dq;
+    int tmp = -1;
     for(int i=0; i<arr.size(); i++) {
-        if (dq.empty()) {
-            dq.push_back(arr[i]);
+        if (arr[i] == tmp) {
+            continue;
         } else {
-            if (dq.back() == arr[i]) continue;
-            dq.push_back(arr[i]);
+            answer.push_back(arr[i]);
+            tmp = arr[i];
         }
-    }
-    while(!dq.empty()) {
-        answer.push_back(dq.front());
-        dq.pop_front();
     }
 
     return answer;
