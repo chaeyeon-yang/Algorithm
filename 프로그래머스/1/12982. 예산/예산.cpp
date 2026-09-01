@@ -8,13 +8,14 @@ using namespace std;
 
 int solution(vector<int> d, int budget) {
     int answer = 0;
-    int s = 0;
+    int sum = 0;
+    // 부서 처리 개수 우선, atom 단위
     sort(d.begin(), d.end());
-    for(int i=0; i<d.size(); i++) {
-        if (s + d[i] <= budget) {
-            s += d[i];
+    for(int i: d) {
+        if (sum + i <= budget) {
             answer++;
         }
+        sum+=i;
     }
     
     return answer;
