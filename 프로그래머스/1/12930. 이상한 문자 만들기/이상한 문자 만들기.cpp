@@ -1,25 +1,25 @@
 #include <string>
 #include <vector>
+#include <cctype>
+#include <iostream>
 
 using namespace std;
 
 string solution(string s) {
     string answer = "";
-    int i=0;
-
-    for(char c: s) {
-        if (c==' ') {
-            answer += c;
-            i=0;
+    int idx = 0;
+    
+    for(int i=0; i<s.size(); i++) {
+        if (s[i] == ' ') {
+            answer += s[i];
+            idx = 0;
+            continue;
+        } else if (idx%2 == 0) {
+            answer += toupper(s[i]);
+        } else {
+            answer += tolower(s[i]);
         }
-        else {
-            if (i%2==0) {
-                answer += toupper(c);
-            } else {
-                answer += tolower(c);
-            }
-            i++;
-        }
-    }    
+        idx++;
+    }
     return answer;
 }
