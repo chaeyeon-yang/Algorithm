@@ -6,17 +6,17 @@ using namespace std;
 
 vector<int> solution(string s) {
     vector<int> answer;
-    map<char, int> mp;
-    
+    map<char, int> tmp;
     for(int i=0; i<s.size(); i++) {
-        if (mp[s[i]] == 0) {
-            mp[s[i]] = i+1;
+        if (!tmp.contains(s[i])) {
             answer.push_back(-1);
+            tmp[s[i]] = i;
         } else {
-            answer.push_back(i+1-mp[s[i]]);
-            mp[s[i]] = i+1;
+            int char_idx = tmp[s[i]];
+            answer.push_back(i-char_idx);
+            tmp[s[i]] = i;
         }
-    
     }
+    
     return answer;
 }
