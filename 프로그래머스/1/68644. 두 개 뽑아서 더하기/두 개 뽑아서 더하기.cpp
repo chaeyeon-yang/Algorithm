@@ -9,10 +9,11 @@ vector<int> solution(vector<int> numbers) {
     set<int> s;
     for(int i=0; i<numbers.size(); i++) {
         for(int j=i+1; j<numbers.size(); j++) {
-            s.insert(numbers[i] + numbers[j]);
+            s.insert(numbers[i]+numbers[j]);
         }
     }
-    for(int i: s) 
+    for(int i: s) {
         answer.push_back(i);
+    }
     return answer;
 }
