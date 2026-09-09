@@ -1,24 +1,21 @@
 #include <string>
 #include <vector>
+#include <map>
+#include <algorithm>
 
 using namespace std;
 
 string solution(vector<string> cards1, vector<string> cards2, vector<string> goal) {
-    string answer = "No";
-    int check = 0;
-    int tmp1 = 0;
-    int tmp2 = 0;
-    for(int i=0; i<goal.size(); i++) {
-        string now = goal[i];
-        if (cards1[tmp1] == now) {
-            tmp1++;
-            check++;
-        }
-        if (cards2[tmp2] == now) {
-            tmp2++;
-            check++;
+     int i = 0, j = 0; // cards1, cards2 인덱스
+    
+    for (const string& word : goal) {
+        if (i < cards1.size() && cards1[i] == word) {
+            i++;
+        } else if (j < cards2.size() && cards2[j] == word) {
+            j++;
+        } else {
+            return "No";
         }
     }
-    if (check == goal.size()) answer = "Yes";
-    return answer;
+    return "Yes";
 }
