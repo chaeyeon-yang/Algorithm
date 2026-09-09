@@ -1,24 +1,19 @@
 #include <vector>
-#include <map>
-
+#include <set>
 using namespace std;
 
-int solution(vector<int> nums) {
-    // 1: 1, 2: 1, 3: 2
-    // 2: 2, 3: 3, 4: 1
-    // 2: 3, 3: 3
+int solution(vector<int> nums)
+{
     int answer = 0;
-    int tmp = 0;
-    map<int, int> mp;
+    set<int> s;
     for(int i: nums) {
-        mp[i]++;
+        s.insert(i);
     }
-    for(auto& a: mp) {
-        if (a.second >= 1) tmp++;
+    if (s.size() >= nums.size()/2) {
+        answer = nums.size()/2;
+    } else {
+        answer = s.size();
     }
-    if (tmp >= nums.size()/2) answer = nums.size()/2;
-    else answer = tmp;
-    
     
     return answer;
 }
