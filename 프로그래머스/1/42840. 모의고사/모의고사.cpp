@@ -1,47 +1,31 @@
 #include <string>
 #include <vector>
-#include <iostream>
 #include <algorithm>
+#include <map>
 
 using namespace std;
 
 vector<int> solution(vector<int> answers) {
     vector<int> answer;
-    vector<int> supo1 = {1,2,3,4,5};
-    vector<int> supo2 = {2,1,2,3,2,4,2,5};
-    vector<int> supo3 = {3,3,1,1,2,2,4,4,5,5};
-    vector<pair<int, int>> tmp;
+    int supo1[] = {1,2,3,4,5};
+    int supo2[] = {2,1,2,3,2,4,2,5};
+    int supo3[] = {3,3,1,1,2,2,4,4,5,5};
     
-    int supo1_n = 0, supo2_n = 0, supo3_n = 0;
-    for(int i=0; i<answers.size(); i+=5) {
-        vector<int> now(answers.begin() + i, answers.begin() + i + 5);
-        for(int j=0; j<supo1.size(); j++) {
-            if (now[j] == supo1[j]) supo1_n++;
-        }
-    }
-    for(int i=0; i<answers.size(); i+=8) {
-        vector<int> now(answers.begin() + i, answers.begin() + i + 8);
-        for(int j=0; j<supo2.size(); j++) {
-            if (now[j] == supo2[j]) supo2_n++;
-        }
-    }
-    for(int i=0; i<answers.size(); i+=10) {
-        vector<int> now(answers.begin() + i, answers.begin() + i + 10);
-        for(int j=0; j<supo3.size(); j++) {
-            if (now[j] == supo3[j]) supo3_n++;
-        }
-    }
-    tmp.push_back({supo1_n,1});
-    tmp.push_back({supo2_n,2});
-    tmp.push_back({supo3_n,3});
-    sort(tmp.rbegin(), tmp.rend());
+    map<int, int> mp;
+    vector<pair<int, int>> v;
     
-    for(int i=0; i<tmp.size(); i++) {
-        if (tmp[i].first > tmp[i+1].first) {
-            answer.push_back(tmp[i].second);
-            break;
-        } 
-        answer.push_back(tmp[i].second);
+    for(int i=0; i<answers.size(); i++) {
+        if (answers[i] == supo1[i%5]) mp[1]++;
+        if (answers[i] == supo2[i%8]) mp[2]++;
+        if (answers[i] == supo3[i%10]) mp[3]++;
+    }
+    for(auto a: mp) {
+        v.push_back({a.second, a.first});
+    }
+    sort(v.rbegin(), v.rend());
+    for(int i=0; i<v.size(); i++) {
+        if (i>0 && v[i].first != v[i-1].first) break;
+        answer.push_back(v[i].second);
     }
     sort(answer.begin(), answer.end());
     
