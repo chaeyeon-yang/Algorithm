@@ -1,37 +1,22 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include <algorithm>
 
 using namespace std;
 
 int solution(int n, int m, vector<int> section) {
     int answer = 0;
-    vector<int> v(n, 1);
-    
-    for(int i=0; i<section.size(); i++) {
-        int now = section[i]-1;
-        v[now] = 0;
+    int painted_end = 0; // 여기까지는 이미 칠해진 상태 (0이면 아무것도 안 칠함)
+
+    for (int i = 0; i < section.size(); i++) {
+        int point = section[i];
+        if (point <= painted_end) continue; // 이미 칠해진 지점이면 스킵
+
+        // point를 포함하면서 가능한 한 오른쪽으로 민 시작점
+        int start = min(point, n - m + 1);
+        painted_end = start + m - 1;
+        answer++;
     }
-    
-    for(int i=0; i<section.size(); i++) {
-        int now = section[i]-1;
-        // cout << "현재 위치 : " << now << "\n";
-        if (v[now] == 1) continue;
-        else {
-            if (now+m < n) {
-                // cout << now <<" 부터 " << now+m-1 << "까지 색칠\n";
-                for(int i=now; i<now+m; i++) {
-                    v[i] = 1;
-                }
-                answer++;
-            }
-        }
-    }
-    int tmp = 0;
-    for(int i: v) {
-        if (i==0) tmp++;
-    }
-    if (tmp>0 && tmp<=m) answer++;
-    
     return answer;
 }
