@@ -1,28 +1,26 @@
 #include <string>
 #include <vector>
-#include <cctype>
 
 using namespace std;
 
 string solution(string s) {
     string answer = "";
-    bool firstWord = true;
+    string tmp = "";
     for(int i=0; i<s.size(); i++) {
-        if (isspace(s[i])) {
-            answer += s[i];
-            firstWord = true;
-        } else {
-            if (firstWord) {
-                if (isdigit(s[i])) {
-                    answer += s[i];
-                } else {
-                    answer += toupper(s[i]);
-                }
-                firstWord = false;
+        if (s[i] == ' ') {
+            answer += tmp;
+            tmp = "";
+            answer += " ";
+        } else if (tmp.empty()) {
+            if (isdigit(s[i])) {
+                tmp += s[i];
             } else {
-                answer += tolower(s[i]);
+                tmp += toupper(s[i]);
             }
+        } else {
+            tmp += tolower(s[i]);
         }
     }
+    answer += tmp;
     return answer;
 }
