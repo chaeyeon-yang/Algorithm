@@ -1,22 +1,26 @@
 #include <string>
 #include <vector>
+#include <algorithm>
+#include <iostream>
 #include <sstream>
-#include <cmath>
 
 using namespace std;
 
 string solution(string s) {
     string answer = "";
     stringstream ss(s);
-    int ma = -1e8;
-    int mi = 1e8;
-    string k;
-    while(ss >> k) {
-        ma = max(stoi(k), ma);
-        mi = min(stoi(k), mi);
+    string now = "";
+    int tmp = 0;
+    vector<int> v;
+    
+    while(ss >> now) {
+        tmp = stoi(now);
+        v.push_back(tmp);
     }
-    answer += to_string(mi);
+    sort(v.begin(), v.end());
+    answer += to_string(v[0]);
     answer += " ";
-    answer += to_string(ma);
+    answer += to_string(v[v.size()-1]);
+
     return answer;
 }
