@@ -1,4 +1,4 @@
-#include<string>
+#include <string>
 #include <iostream>
 #include <stack>
 
@@ -8,23 +8,21 @@ bool solution(string s)
 {
     bool answer = true;
     stack<char> st;
-    for(char c : s) {
-        if (st.empty()) {
-            if (c=='(') st.push(c);
-            else {
-                return false;
-            }
+    for(char c: s) {
+        if (c == '(') {
+            st.push(c);
         } else {
-            if (c=='(') {
-                if (st.top() == ')') st.pop();
-                else st.push(c);
+            if (!st.empty()) {
+                st.pop();
             } else {
-                if (st.top() == '(') st.pop();
-                else st.push(c);
+                answer = false;
+                break;
             }
         }
     }
-    answer = st.empty() ? true : false;
+    if (!st.empty()) {
+        answer = false;
+    }
 
     return answer;
 }
