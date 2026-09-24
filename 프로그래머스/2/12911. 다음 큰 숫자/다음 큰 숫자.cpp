@@ -1,7 +1,6 @@
 #include <string>
 #include <vector>
 #include <iostream>
-#include <algorithm>
 
 using namespace std;
 
@@ -13,7 +12,6 @@ int numTo2(int num) {
         num /= 2;
     }
     v.push_back(num);
-    reverse(v.begin(), v.end());
     
     for(int i: v) {
         if (i == 1) cnt++;
