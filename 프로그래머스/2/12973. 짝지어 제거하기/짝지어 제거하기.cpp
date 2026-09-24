@@ -1,24 +1,23 @@
 #include <iostream>
 #include <string>
 #include <stack>
-
 using namespace std;
 
-int solution(string s) {
-    int answer = 0;
+int solution(string s)
+{
+    int answer = 1;
     stack<char> st;
-    for(char c: s) {
-        int top = st.top();
-        if (st.empty())
-            st.push(c);
-        else {
-            if (top == c) st.pop();
-            else {
-                st.push(c);
-            }
+    for(int i=0; i<s.size(); i++){
+        if(st.size() > 0 && st.top() == s[i]) {
+            st.pop();
+        } else {
+            st.push(s[i]);
         }
     }
-    if (st.empty()) answer = 1;
-   
+    
+    if (!st.empty()) {
+        answer = 0;
+    }
+
     return answer;
 }
