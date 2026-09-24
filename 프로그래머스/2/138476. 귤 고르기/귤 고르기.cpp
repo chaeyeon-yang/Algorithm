@@ -1,32 +1,31 @@
 #include <string>
 #include <vector>
 #include <algorithm>
-#include <map>
 #include <iostream>
+#include <map>
 
 using namespace std;
 
 int solution(int k, vector<int> tangerine) {
-
     int answer = 0;
+    vector<pair<int,int>> v;
     map<int, int> mp;
     for(int i: tangerine) {
         mp[i]++;
     }
-    vector<pair<int, int>> v(mp.begin(), mp.end());
-    sort(v.begin(), v.end(), [](pair<int, int> a, pair<int, int> b) {
-        return a.second > b.second;
+    for(auto a: mp) {
+        v.push_back({a.first, a.second});
+    }
+    sort(v.begin(), v.end(), [](const pair<int, int>& a, const pair<int, int>& b) {
+        if (a.second >= b.second) return a.second > b.second;
+        return a.second > b.second;;
     });
     
-    int want_k = k;
-    for(int i=0; i<v.size(); i++) {
-        if (want_k <= 0) {
-            break;
-        }
-        want_k -= v[i].second;
+    int sum = 0;
+    for (auto& p : v) {
+        sum += p.second;
         answer++;
+        if (sum >= k) break;
     }
-
-    
     return answer;
 }
