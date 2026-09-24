@@ -1,14 +1,22 @@
+#include <string>
 #include <vector>
+#include <iostream>
+
 using namespace std;
 
-int solution(int n)
-{
-    vector<int> dp(n + 1, 0);
-    dp[0] = 0;
-    dp[1] = 1;
+long long v[100000];
 
-    for (int i = 2; i <= n; i++)
-        dp[i] = (dp[i - 1] + dp[i - 2]) % 1234567;
-
-    return dp[n];
+long long solution(int n) {
+    long long answer = 0;
+    
+    for(long long i=0; i<=n; i++) {
+        if (i==0 || i==1){
+            v[i] = i;
+        } else {
+            v[i] = (v[i-1] + v[i-2])%1234567;
+        }
+    }
+    answer = v[n];
+    
+    return answer;
 }
