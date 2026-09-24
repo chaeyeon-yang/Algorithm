@@ -1,17 +1,34 @@
 #include <string>
 #include <vector>
 #include <iostream>
-#include <bit>
+#include <algorithm>
 
 using namespace std;
 
+int numTo2(int num) {
+    vector<int> v;
+    int cnt = 0;
+    while (num/2 > 0) {
+        v.push_back(num%2);
+        num /= 2;
+    }
+    v.push_back(num);
+    reverse(v.begin(), v.end());
+    
+    for(int i: v) {
+        if (i == 1) cnt++;
+    }
+    return cnt;
+}
+
 int solution(int n) {
     int answer = 0;
-    for(int i=n+1; i<=10000000; i++) {
-        if (__popcount(n) == __popcount(i)) {
-            answer = i;
-            break;
+    int n_cnt = numTo2(n);
+    for(int i = n+1; ; i++) {
+        if (numTo2(i) == n_cnt) {
+            return i;
         }
     }
+    
     return answer;
 }
