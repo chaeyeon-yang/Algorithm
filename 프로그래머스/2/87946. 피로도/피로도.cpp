@@ -1,32 +1,27 @@
 #include <string>
 #include <vector>
 #include <algorithm>
-#include <cmath>
+#include <iostream>
 
 using namespace std;
 
 int solution(int k, vector<vector<int>> dungeons) {
     int answer = -1;
-    vector<pair<int, int>> needs;
-    for(int i=0; i<dungeons.size(); i++) {
-        needs.push_back({dungeons[i][0], dungeons[i][1]});
-    }
-    sort(needs.begin(), needs.end());
-    
+    // 최대한 많은 던전.. DP?
+    sort(dungeons.begin(), dungeons.end());
     do {
-        int tmp_ans = 0;
-        int tmp_k = k;
-        for(int i=0; i<needs.size(); i++) {
-            int needs_exp = needs[i].first;
-            int somo_exp = needs[i].second;
-            if (tmp_k >= needs_exp) {
-                tmp_k -= somo_exp;
-                tmp_ans++;
+        int pirodo = k;
+        int cnt = 0;
+        for(int i=0; i<dungeons.size(); i++) {
+            if (pirodo >= dungeons[i][0]) {
+                pirodo -= dungeons[i][1];
+                cnt++;
+            } else {
+                break;
             }
         }
-        answer = max(answer, tmp_ans);
-    } while(next_permutation(needs.begin(), needs.end()));
-        
+        answer = max(cnt, answer);
+    } while (next_permutation(dungeons.begin(), dungeons.end()));
     
     return answer;
 }
