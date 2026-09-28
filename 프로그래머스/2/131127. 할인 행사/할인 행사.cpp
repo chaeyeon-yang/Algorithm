@@ -1,36 +1,42 @@
 #include <string>
 #include <vector>
-#include <map>
 #include <iostream>
+#include <map>
 
 using namespace std;
 
 int solution(vector<string> want, vector<int> number, vector<string> discount) {
     int answer = 0;
-    map<string, int> need;
+    // 할인하는 제품은 하루 하나씩만
+    // 원하는 제품과 수량이 할인하는 날짜와 10일 연속으로 일치
+    
+    map<string, int> mp;
+    
     for(int i=0; i<want.size(); i++) {
-        need[want[i]] = number[i];
+        mp[want[i]] = number[i];
     }
     
-    
-    for(int i=0; i+10<=discount.size(); i++) {
-        map<string, int> mp = need;
-        int cnt = 0;
-        for(int j=i; j<i+10; j++) {
-            auto it = mp.find(discount[j]);
-            if (it != mp.end()) {
-                mp[discount[j]]--;
-            };
+    for(int i=0; i<discount.size(); i++) {
+        map<string, int> tmp;
+        for(int j=i; j<i+10 && j<discount.size(); j++) {
+            tmp[discount[j]]++;
         }
         bool flag = true;
-        for(auto& s: mp) {
-            if (s.second != 0) {
+        
+        for(auto a: mp) {
+            if (tmp.contains(a.first)) {
+                if (tmp[a.first] != a.second) {
+                    flag = false;
+                    break;
+                }
+            } else {
                 flag = false;
                 break;
             }
         }
-
-        if (flag) answer++;
+        if (flag) {
+            answer++;
+        }
     }
     return answer;
 }
