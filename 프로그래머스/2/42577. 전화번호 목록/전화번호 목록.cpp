@@ -8,7 +8,7 @@ bool solution(vector<string> phone_book) {
     bool answer = true;
     sort(phone_book.begin(), phone_book.end());
     for(int i=1; i<phone_book.size(); i++) {
-        string cur = phone_book[i-1];
+        const string& cur = phone_book[i-1];
         if (phone_book[i].substr(0, cur.size()) == cur) {
             answer = false;
             break;
