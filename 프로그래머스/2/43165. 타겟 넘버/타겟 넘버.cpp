@@ -1,27 +1,22 @@
-#include <string>
 #include <vector>
-
+#include <iostream>
 using namespace std;
 
-int total;
+int answer = 0;
 
-void DFS(vector<int> &numbers, int &target,int sum,int n) {
-    if(n >= numbers.size()){
-        if(sum == target) total++;
+void dfs(const vector<int>& numbers, int target, int idx, int sum) {
+    if (idx == numbers.size()) {                 // 숫자를 다 씀
+        if (sum == target) answer++;
         return;
     }
+    // 이번 숫자에 - 를 붙인 경우
+    dfs(numbers, target, idx + 1, sum - numbers[idx]);
 
-    DFS(numbers, target, sum + numbers[n], n+1);
-    DFS(numbers, target, sum - numbers[n], n+1);
+    // 이번 숫자에 + 를 붙인 경우
+    dfs(numbers, target, idx + 1, sum + numbers[idx]);
 }
 
 int solution(vector<int> numbers, int target) {
-    int answer = 0;
-
-    DFS(numbers, target, numbers[0] , 1);
-    DFS(numbers, target, -numbers[0], 1);
-
-    answer = total;
-
+    dfs(numbers, target, 0, 0);
     return answer;
 }
