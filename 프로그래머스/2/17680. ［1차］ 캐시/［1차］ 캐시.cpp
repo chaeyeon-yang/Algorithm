@@ -1,28 +1,28 @@
 #include <string>
 #include <vector>
-#include <deque>
+#include <queue>
 #include <algorithm>
-#include <cctype>
 
 using namespace std;
 
 int solution(int cacheSize, vector<string> cities) {
-    if (cacheSize == 0) return cities.size() * 5; 
-
     int answer = 0;
-    deque<string> cache;
-
-    for (string city : cities) { 
-        for (char& c : city) c = tolower(c);
-
-        auto it = find(cache.begin(), cache.end(), city);
-        if (it != cache.end()) {           
-            cache.erase(it);
-            cache.push_back(city);      
+    deque<string> q;
+    int n = cities.size();
+    if (cacheSize == 0) return n*5;
+    for(string city: cities) {
+        transform(city.begin(), city.end(), city.begin(), ::tolower);
+        
+        auto it = find(q.begin(), q.end(), city);
+        if (it != q.end()) {
             answer += 1;
-        } else {                        
-            if (cache.size() == cacheSize) cache.pop_front();
-            cache.push_back(city);
+            q.erase(it);
+            q.push_back(city);
+        } else {
+            if (q.size() >= cacheSize) {
+                q.pop_front();
+            }
+            q.push_back(city);
             answer += 5;
         }
     }
