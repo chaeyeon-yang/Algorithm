@@ -4,26 +4,16 @@
 
 using namespace std;
 
-bool compare(const string &a, const string &b) {
-    return a + b > b + a;
-}
-
 string solution(vector<int> numbers) {
-    vector<string> strNumbers;
-    for (int num : numbers) {
-        strNumbers.push_back(to_string(num));
-    }
-    
-    sort(strNumbers.begin(), strNumbers.end(), compare);
-    
     string answer = "";
-    for (const string& s : strNumbers) {
+    vector<string> v;
+    for(int i: numbers) v.push_back(to_string(i));
+    sort(v.begin(), v.end(), [](const string& a, const string& b){
+        return a+b > b+a;
+    });
+    if (v[0] == "0") return "0";
+    for(string s: v) {
         answer += s;
     }
-
-    if (answer[0] == '0') {
-        return "0";
-    }
-
     return answer;
 }
