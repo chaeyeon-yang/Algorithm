@@ -1,12 +1,12 @@
 -- 코드를 입력하세요
 with milk_cart as (
-    select cart_id, count(*) as milk_cnt
+    select cart_id
     from cart_products
     where name = 'Milk'
     group by cart_id
 ),
 yogurt_cart as (
-    select cart_id, count(*) as yogurt_cnt
+    select cart_id
     from cart_products
     where name = 'Yogurt'
     group by cart_id
