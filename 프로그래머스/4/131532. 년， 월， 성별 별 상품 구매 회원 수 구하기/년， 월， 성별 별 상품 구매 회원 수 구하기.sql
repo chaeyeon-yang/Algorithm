@@ -1,7 +1,10 @@
 -- 코드를 입력하세요
-SELECT EXTRACT(YEAR FROM o.SALES_DATE) AS YEAR , EXTRACT(MONTH FROM o.SALES_DATE) AS MONTH, ui.GENDER AS GENDER, COUNT(DISTINCT ui.USER_ID) AS USERS
-FROM USER_INFO ui JOIN ONLINE_SALE o 
-ON ui.USER_ID = o.USER_ID
-WHERE ui.GENDER IS NOT NULL
-GROUP BY EXTRACT(YEAR FROM o.SALES_DATE), EXTRACT(MONTH FROM o.SALES_DATE), ui.GENDER
-ORDER BY EXTRACT(YEAR FROM o.SALES_DATE), EXTRACT(MONTH FROM o.SALES_DATE), ui.GENDER ASC;
+select extract(year from s.sales_date) as year, 
+       extract(month from s.sales_date) as month, 
+       u.gender as gender, 
+       count(distinct(u.user_id)) as users
+from online_sale s left join user_info u
+on u.user_id = s.user_id
+where u.gender is not null
+group by extract(year from s.sales_date), extract(month from s.sales_date), u.gender
+order by year asc, month asc, gender asc
