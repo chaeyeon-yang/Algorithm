@@ -1,8 +1,8 @@
 -- 코드를 입력하세요
-SELECT b.WRITER_ID, u.NICKNAME, SUM(b.PRICE) AS TOTAL_SALES
-FROM USED_GOODS_BOARD b JOIN USED_GOODS_USER u
-ON b.WRITER_ID = u.USER_ID
-WHERE STATUS = 'DONE'
-GROUP BY b.WRITER_ID, u.NICKNAME
-HAVING SUM(PRICE) >= 700000
-ORDER BY TOTAL_SALES;
+select b.writer_id, u.nickname, sum(b.price) as total_price
+from used_goods_board b join used_goods_user u
+on b.writer_id = u.user_id
+where b.status = 'DONE'
+group by b.writer_id, u.nickname
+having sum(b.price) >= 700000
+order by total_price asc;
