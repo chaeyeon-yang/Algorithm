@@ -2,21 +2,22 @@
 using namespace std;
 
 const string vowels = "AEIOU";
-int cnt = 0;      // 지금까지 만든 단어 수
-int answer = 0;
+int cnt, answer;
 
-void dfs(const string& cur, const string& word) {
-    if (cur.size() == 5) return;              // 끝나는 조건: 더 붙일 수 없음
-
-    for (char c : vowels) {                   // 선택지 5개
-        string next = cur + c;                // 이번 자리에 글자 하나 붙이기
-        cnt++;                                // 사전에 단어 하나 추가
-        if (next == word) answer = cnt;       // 찾던 단어면 번호 기록
-        dfs(next, word);                      // 다음 자리로
+void dfs(const string& cur, const string& target) {
+    if (!cur.empty()) {          // 빈 문자열은 단어가 아니니까 세지 않음
+        cnt++;
+        if (cur == target) { answer = cnt; return; }
+    }
+    if (cur.size() == 5) return; // 길이 5면 더 못 붙임
+    for (char c : vowels) {
+        dfs(cur + c, target);
+        if (answer) return;      // 찾았으면 조기 종료
     }
 }
 
 int solution(string word) {
+    cnt = 0; answer = 0;
     dfs("", word);
     return answer;
 }
