@@ -1,26 +1,18 @@
-#include <string>
 #include <vector>
 #include <stack>
-
 using namespace std;
 
 vector<int> solution(vector<int> numbers) {
-    vector<int> answer(numbers.size());
-    stack<int> st;
-    for(int i=numbers.size()-1; i>=0; i--) {
-        while(true) {
-            if (st.empty()) {
-                answer[i] = -1;
-                break;
-            } 
-            if (st.top() > numbers[i]) {
-                answer[i] = st.top();
-                break;
-            }
+    int n = numbers.size();
+    vector<int> answer(n, -1);   // 기본값 -1로 시작
+    stack<int> st;               // 인덱스를 저장
+
+    for (int i = 0; i < n; i++) {
+        while (!st.empty() && numbers[st.top()] < numbers[i]) {
+            answer[st.top()] = numbers[i];
             st.pop();
         }
-        st.push(numbers[i]);
-        
+        st.push(i);
     }
     return answer;
 }
