@@ -3,9 +3,6 @@
 
 using namespace std;
 
-#include <vector>
-#include <algorithm>
-using namespace std;
 
 int solution(int x, int y, int n) {
     const int INF = 1e9;
