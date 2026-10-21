@@ -1,30 +1,23 @@
 #include <string>
 #include <vector>
-#include <algorithm>
 
 using namespace std;
 
+#include <vector>
+#include <algorithm>
+using namespace std;
+
 int solution(int x, int y, int n) {
-    int answer = 0;
-    int DP[1000001] = {0};
-    for (int i = 1; i < 1000001; i++)
-        DP[i] = 1000001;
-    
-    DP[y] = 0;
-    for(int i = y; i > x; i--)
-    {
-        if (DP[i] != 1000001)
-        {
-            if(i % 3 == 0)
-                DP[i/3] = min(DP[i/3], DP[i] + 1);
-            if(i % 2 == 0)
-                DP[i/2] = min(DP[i/2], DP[i] + 1);
-            if(i - n > 0)
-                DP[i - n] = min(DP[i-n], DP[i] + 1);
-        }
+    const int INF = 1e9;
+    vector<int> dp(y + 1, INF);   // dp[i]: x → i 최소 연산 횟수
+    dp[x] = 0;
+
+    for (int i = x; i <= y; i++) {
+        if (dp[i] == INF) continue;          // 만들 수 없는 수는 건너뜀
+        if (i + n <= y) dp[i + n] = min(dp[i + n], dp[i] + 1);
+        if (i * 2 <= y) dp[i * 2] = min(dp[i * 2], dp[i] + 1);
+        if (i * 3 <= y) dp[i * 3] = min(dp[i * 3], dp[i] + 1);
     }
-    if(DP[x] == 1000001)
-        DP[x] = -1;
-    answer = DP[x];
-    return answer;
+
+    return dp[y] == INF ? -1 : dp[y];
 }
