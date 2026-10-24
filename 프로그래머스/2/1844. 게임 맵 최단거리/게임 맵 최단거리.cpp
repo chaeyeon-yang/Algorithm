@@ -1,34 +1,44 @@
 #include <vector>
 #include <queue>
+#include <iostream>
+
 using namespace std;
 
 const int dy[4] = {-1,0,1,0};
 const int dx[4] = {0,1,0,-1};
 
-int solution(vector<vector<int> > maps)
-{
-    int answer = 0;
-    deque<pair<int, int>> q;
-    int n = maps.size();
-    int m = maps[0].size();
+void bfs(int& n, int& m, int y, int x, vector<vector<int>>& maps, 
+        vector<vector<int>>& visited) {
     
-    vector<vector<int>> visited(n, vector<int>(m, 0));
-    
-    q.push_back(make_pair(0,0));
-    visited[0][0] = 1;
-    
+    queue<pair<int, int>> q;
+    q.push({y, x});
+    visited[y][x] = 1;
     while(!q.empty()) {
-        auto [y, x] = q.front();
-        q.pop_front();
+        auto [i, j] = q.front();
+        q.pop();
         for(int a=0; a<4; a++) {
-            int ny = y + dy[a];
-            int nx = x + dx[a];
-            if(ny<0 || ny>=n || nx<0 || nx>=m || visited[ny][nx] || !maps[ny][nx]) continue;
-            visited[ny][nx] = visited[y][x]+1;
-            q.push_back(make_pair(ny, nx));
+            int ny = i + dy[a];
+            int nx = j + dx[a];
+            if (ny<0 || nx<0 || ny>=n || nx>=m || visited[ny][nx]
+               || !maps[ny][nx]) continue;
+            
+            visited[ny][nx] = visited[i][j]+1;
+            q.push(make_pair(ny, nx));
         }
     }
+}
+
+int solution(vector<vector<int> > maps)
+{
+    // 0: 벽, 1:벽x
+    int answer = 0;
+    int n = maps.size();
+    int m = maps[0].size();
+    vector<vector<int>> visited(n, vector<int>(m,0));
     
-    return visited[n - 1][m - 1] ? visited[n - 1][m - 1] : -1;
+    bfs(n, m, 0, 0, maps, visited);
     
+    answer = visited[n-1][m-1] ? visited[n-1][m-1] : -1;
+    
+    return answer;
 }
