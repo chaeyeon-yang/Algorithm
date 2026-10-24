@@ -1,25 +1,37 @@
 #include <string>
 #include <vector>
+#include <iostream>
+#include <queue>
+
 using namespace std;
 
-void dfs(int node, vector<vector<int>> &computers, vector<bool> &visited) {
-    visited[node] = true;
-    for (int i = 0; i < computers.size(); i++) {
-        if (computers[node][i] == 1 && !visited[i]) {
-            dfs(i, computers, visited);
-        }
+
+void dfs(int cur, vector<vector<int>>& adj, vector<bool>& visited) {
+    visited[cur] = true;
+    for (int next : adj[cur]) {
+        if (!visited[next]) dfs(next, adj, visited);
     }
 }
 
 int solution(int n, vector<vector<int>> computers) {
     int answer = 0;
+    
+    vector<vector<int>> adj(n);
     vector<bool> visited(n, false);
     
-    for (int i = 0; i < n; i++) {
+    for(int i=0; i<n; i++) {
+        for(int j=0; j<n; j++) {
+            if (i!=j&&computers[i][j]==1) {
+                adj[i].push_back(j);
+            }
+        }
+    }
+    for(int i=0; i<n; i++) {
         if (!visited[i]) {
-            dfs(i, computers, visited);
+            dfs(i, adj, visited);
             answer++;
         }
     }
+    
     return answer;
 }
