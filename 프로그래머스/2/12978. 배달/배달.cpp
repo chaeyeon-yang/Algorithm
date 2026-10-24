@@ -1,45 +1,46 @@
+#include <iostream>
 #include <vector>
 #include <queue>
 #include <iostream>
+
 using namespace std;
 
-vector<vector<pair<int, int>>> graph;
-vector<int> dist;
-
-void dijkstra(int start) {
-    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> pq;
-    pq.push({0, start});
-    dist[start] = 0;
-
-    while (!pq.empty()) {
-        int cost = pq.top().first;
-        int cur = pq.top().second;
-        pq.pop();
-
-        for (auto [next, nextCost] : graph[cur]) {
-            if (dist[next] > cost + nextCost) {
-                dist[next] = cost + nextCost;
-                pq.push({dist[next], next});
+void bfs(int cur, vector<vector<pair<int, int>>>& adj, vector<int>& visited) {
+    queue<pair<int,int>> q;
+    q.push(make_pair(cur, 0));
+    visited[cur]=0;
+    while(!q.empty()) {
+        auto [conn, cost] = q.front();
+        q.pop();
+        for(auto& next: adj[conn]) {
+            auto [n_conn, n_cost] = next;
+            if (visited[conn] + n_cost < visited[n_conn]) {
+                visited[n_conn] = visited[conn]+n_cost;
+                q.push(make_pair(n_conn, visited[n_conn]));
             }
         }
     }
 }
 
 int solution(int N, vector<vector<int>> road, int K) {
-    graph.resize(N + 1); 
-    dist.assign(N + 1, 2e9);
-
-    for (auto r : road) {
-        int u = r[0], v = r[1], c = r[2];
-        graph[u].emplace_back(v, c); 
-        graph[v].emplace_back(u, c);
-    }
-
-    dijkstra(1); 
-
     int answer = 0;
-    for (int i = 1; i <= N; i++)
-        if (dist[i] <= K) answer++; 
+    vector<vector<pair<int, int>>> adj(N+1);
+    vector<int> visited(N+1, 1e9);
+    
+    int a = road.size();
+    int b = road[0].size();
+    
+    for(int i=0; i<a; i++) {
+        adj[road[i][0]].push_back(make_pair(road[i][1], road[i][2]));
+        adj[road[i][1]].push_back(make_pair(road[i][0], road[i][2]));
+    }
+    bfs(1, adj, visited);
+    
+    
+    for(int i=1; i<=N; i++) {
+        if (visited[i]<=K) answer++;
+    }
+    
 
     return answer;
 }
